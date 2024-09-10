@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# Function to display the figlet banner in blue
+display_banner() {
+    # Define the color code for blue
+    local BLUE='\033[0;34m'
+    local RESET='\033[0m'  # Reset to default color
+
+    # Display the figlet banner with blue color
+    echo -e "${BLUE}"
+    figlet "Nmap Menu"
+    echo -e "${RESET}"
+}
+
 # Function to display the menu
 display_menu() {
     echo -e "What option would you like to use? \n"
@@ -170,15 +182,27 @@ perform_scan() {
             echo "Invalid option. Please try again."
             ;;
     esac
+
+    # Wait for 3 seconds before allowing the user to return to the menu
+    sleep 3
+    echo "Press Enter to return to the menu..."
+    read -r
 }
 
-# Check if nmap is installed
+# Check if nmap and figlet are installed
 if ! command -v nmap &> /dev/null; then
     echo "nmap is not installed. Please install nmap to use this script."
     exit 2
 fi
 
+if ! command -v figlet &> /dev/null; then
+    echo "figlet is not installed. Please install figlet to use this script."
+    exit 2
+fi
+
 # Main script logic
+display_banner
+
 echo -n "Enter the target hostname or IP address: "
 read target
 
